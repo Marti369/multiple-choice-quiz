@@ -23,6 +23,10 @@ body {
     background-color: hsl(var(--hue), 100%, 20%);
 }
 
+.btn:active {
+    background-color: yellow;
+}
+
 .container {
     width: 800px;
     max-width: 80%;
@@ -50,9 +54,11 @@ body {
 }
 
 .btn:hover {
-    border-color: black;
+    background-color: black;
 }
 
+
+/*
 .btn.correct {
     --hue: var(--hue-correct);
 }
@@ -60,6 +66,7 @@ body {
 .btn.wrong {
     --hue: var(--hue-wrong);
 }
+*/
 
 .start-btn,
 .next-btn {
