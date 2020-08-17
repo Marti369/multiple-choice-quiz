@@ -113,12 +113,12 @@ function clock() {
 }
 
 function quiz() {
-    let qu = questions[indexNo];
-    questionEl.innerHTML = "<p>" + qu.question + "</p>";
-    answerA.innerHTML = qu.a;
-    answerB.innerHTML = qu.b;
-    answerC.innerHTML = qu.c;
-    answerD.innerHTML = qu.d;
+    let questions1 = questions[indexNo];
+    questionEl.innerHTML = "<p>" + questions1.question + "</p>";
+    answerA.innerHTML = questions1.a;
+    answerB.innerHTML = questions1.b;
+    answerC.innerHTML = questions1.c;
+    answerD.innerHTML = questions1.d;
 }
 
 function startAppear() {
@@ -179,6 +179,9 @@ function renderScore() {
         scoreContent.append(highScore[i].in + " score: " + highScore[i].sc);
         scoreContent.append(document.createElement("br"));
 
+
+
+
     }
     dispOff();
     clear();
@@ -187,7 +190,7 @@ function renderScore() {
 
 function clear() {
     indexNo = 0;
-    secondsRemaining = 60;
+    secondsRemaining = 120;
     contentOff();
     return;
 }
@@ -251,6 +254,8 @@ function checkD() {
         return;
     }
 }
+
+
 startAppear();
 dispOff();
 hiOff();
