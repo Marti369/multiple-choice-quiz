@@ -8,7 +8,7 @@
     <script defer src="assets/js/quiz.js"></script>
     <title>Multiple Choice Quiz</title>
 </head>
-
+<!--
 <body>
     <div class="container">
         <h3 id="timer">3:00</h3>
@@ -28,6 +28,28 @@
         </div>
     </div>
 
+</body>
+-->
+
+<body>
+    <div class="wrapper">
+        <h1 class="text-center">Coding Multiple Choice Quiz</h1>
+        <button id="strtBtn" onclick="strtQuiz()">Start Quiz</button>
+    </div>
+    <ul id="scoreContent">
+        <h2>High Scores:</h2><br></ul>
+    <div id="main"></div>
+    <div id="questions"></div>
+    <div id="answers">
+        <button class="answer" id="a" onclick="checkA()"></button>
+        <button class="answer" id="b" onclick="checkB()"></button>
+        <button class="answer" id="c" onclick="checkC()"></button>
+        <button class="answer" id="d" onclick="checkD()"></button>
+    </div>
+    <div id="timer"> </div>
+    <div id="formEl">
+        <input type="text" id="initials" placeholder="Enter name to record your score!" />
+        <button type="button" id="submitBtn" onclick="renderScore()">Submit</button>
 </body>
 
 </html>

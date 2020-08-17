@@ -1,173 +1,257 @@
-const startButton = document.getElementById('start-btn');
-const nextButton = document.getElementById('next-btn');
-const questionContainerElement = document.getElementById('question-container');
-const questionElement = document.getElementById('question');
-const answerButtonsElement = document.getElementById('answer-buttons');
-
-
-
-
-let shuffledQuestions, currentQuestionIndex
-
-startButton.addEventListener('click', startQuiz)
-nextButton.addEventListener('click', () => {
-    currentQuestionIndex++;
-
-    setNextQuestion();
-})
-
-
-function startQuiz() {
-    startButton.classList.add('hide')
-    shuffledQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    questionContainerElement.classList.remove('hide')
-
-
-    setNextQuestion()
-}
-
-function setNextQuestion() {
-    resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
-}
-
-function showQuestion(question) {
-    questionElement.innerText = question.question
-    question.answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer.text
-        button.classList.add('btn')
-        if (answer.correct) {
-            button.dataset.correct = answer.correct
-        }
-        button.addEventListener('click', selectAnswer)
-        answerButtonsElement.appendChild(button)
-    })
-}
-
-function resetState() {
-    clearStatusClass(document.body)
-    nextButton.classList.add('hide')
-    while (answerButtonsElement.firstChild) {
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-    }
-}
-
-function selectAnswer(e) {
-    const selectedButton = e.target
-    const correct = selectedButton.dataset.correct
-    setStatusClass(document.body, correct)
-    Array.from(answerButtonsElement.children).forEach(button => {
-        setStatusClass(button, button.dataset.correct)
-    })
-    if (shuffledQuestions.length > currentQuestionIndex + 1) {
-        nextButton.classList.remove('hide')
-    } else {
-        startButton.innerText = 'See Results'
-        startButton.classList.remove('hide')
-    }
-}
-
-function setStatusClass(element, correct) {
-    clearStatusClass(element)
-    if (correct) {
-        element.classList.add('correct')
-    } else {
-        element.classList.add('wrong')
-    }
-}
-
-function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
-}
+const timerDisp = document.getElementById("timer");
+const strtBtn = document.getElementById("strtBtn");
+const questionEl = document.getElementById("questions");
+const answers = document.getElementById("answers");
+const answerA = document.getElementById("a");
+const answerB = document.getElementById("b");
+const answerC = document.getElementById("c");
+const answerD = document.getElementById("d");
+const formEl = document.getElementById("formEl");
+const scoreContent = document.getElementById("scoreContent");
+const submitBtn = document.getElementById("submitBtn");
+let highScore = [];
+let indexNo = 0;
 
 const questions = [{
-        question: 'What keyword do we use to set a new varibale in JavaScript?',
-        answers: [
-            { text: 'tag', correct: false },
-            { text: 'alert', correct: false },
-            { text: 'var', correct: true },
-            { text: 'variable', correct: false },
-        ]
+        question: "What keyword do we use to set a new varibale in JavaScript?",
+        a: "tag",
+        b: "alert",
+        c: "var",
+        d: "variable",
+        correct: "c"
+
     },
     {
-        question: 'What is the "=" called in JavaScript?',
-        answers: [
-            { text: 'Equal', correct: false },
-            { text: 'to', correct: false },
-            { text: 'Equal to', correct: false },
-            { text: 'Assignment Operator', correct: true }
-        ]
+        question: "What is the ' = ' called in JavaScript?",
+        a: "Equal",
+        b: "to",
+        c: "Equal to",
+        d: "Assignment Operator",
+        correct: "d"
+
     },
     {
-        question: 'Complete the sentence: ______ x = 32;',
-        answers: [
-            { text: 'function', correct: false },
-            { text: 'variable', correct: false },
-            { text: 'var', correct: true },
-            { text: 'let', correct: false }
-        ]
+        question: "Complete the sentence: ______ x = 32;",
+        a: "function",
+        b: "variable",
+        c: "var",
+        d: "let",
+        correct: "c"
     },
     {
         question: 'How many components does the "for" loop has?',
-        answers: [
-            { text: '1', correct: false },
-            { text: '2', correct: false },
-            { text: '3', correct: true },
-            { text: '4', correct: false }
-        ]
+        a: "1",
+        b: "2",
+        c: "3",
+        d: "4",
+        correct: "c"
     },
     {
         question: 'What keyword do we use to end the "else if" statement?',
-        answers: [
-            { text: 'break', correct: false },
-            { text: 'end', correct: false },
-            { text: 'else', correct: true },
-            { text: 'stop', correct: false }
-        ]
+        a: "break",
+        b: "end",
+        c: "else",
+        d: "stop",
+        correct: "c"
     },
     {
         question: 'What is CSS?',
-        answers: [
-            { text: 'Cascade Styling Sheet', correct: true },
-            { text: 'HTML', correct: false },
-            { text: 'a Webpage', correct: false },
-            { text: 'A Server', correct: false }
-        ]
+        a: "Cascade Styling Sheet",
+        b: "HTML",
+        c: "A webpage",
+        d: "A Server",
+        correct: "a"
     },
     {
         question: 'Is HTML easy to learn?',
-        answers: [
-            { text: 'No', correct: false },
-            { text: 'Yes', correct: true },
-        ]
+        a: "Yes",
+        b: "No",
+        correct: "a"
     },
     {
         question: 'Is Grid part of JavaScript?',
-        answers: [
-            { text: 'Yes', correct: false },
-            { text: 'No', correct: true },
-        ]
+        a: "No",
+        b: "Yes",
+        correct: "a"
     },
     {
         question: 'What is the DOM?',
-        answers: [
-            { text: 'Definitive Object Model', correct: false },
-            { text: 'Document Object Management', correct: false },
-            { text: 'Document Object Model', correct: true },
-            { text: 'None of the above', correct: false }
-        ]
+        a: "Definitive Object Model",
+        b: "Document Oriented Model",
+        c: "Document Object model",
+        d: "None of the above",
+        correct: "c"
     },
     {
-        question: 'What function executes when an event occurs?',
-        answers: [
-            { text: 'event name', correct: false },
-            { text: 'event listener', correct: false },
-            { text: 'event handler', correct: true },
-            { text: 'event fucntion', correct: false }
-        ]
-    },
+        question: 'What function executes an event?',
+        a: "event name",
+        b: "event handler",
+        c: "event listener",
+        d: "event function",
+        correct: "b"
+    }
 
-]
+];
+
+let arrLength = questions.length - 1;
+let secondsRemaining = 180;
+var myTimer;
+
+function clock() {
+    myTimer = setInterval(myClock, 1000);
+
+    function myClock() {
+        timerDisp.innerHTML = secondsRemaining + " seconds remaining";
+        --secondsRemaining;
+        if (secondsRemaining <= 0) {
+            clearInterval(myTimer);
+            alert("Time is up!");
+            clear();
+            startAppear();
+        }
+    }
+}
+
+function quiz() {
+    let qu = questions[indexNo];
+    questionEl.innerHTML = "<p>" + qu.question + "</p>";
+    answerA.innerHTML = qu.a;
+    answerB.innerHTML = qu.b;
+    answerC.innerHTML = qu.c;
+    answerD.innerHTML = qu.d;
+}
+
+function startAppear() {
+    strtBtn.style.visibility = "visible";
+
+}
+
+function startOff() {
+    strtBtn.style.visibility = "hidden";
+}
+
+function dispOff() {
+    formEl.style.visibility = "hidden";
+}
+
+function hiOff() {
+    scoreContent.innerHTML = "";
+}
+
+function dispOn() {
+    formEl.style.visibility = "visible";
+    scoreContent.style.visibility = "visible";
+}
+
+function contentOn() {
+    questionEl.style.visibility = "visible";
+    answerA.style.visibility = "visible";
+    answerB.style.visibility = "visible";
+    answerC.style.visibility = "visible";
+    answerD.style.visibility = "visible";
+    timerDisp.style.visibility = "visible";
+}
+
+function contentOff() {
+    questionEl.style.visibility = "hidden";
+    answerA.style.visibility = "hidden";
+    answerB.style.visibility = "hidden";
+    answerC.style.visibility = "hidden";
+    answerD.style.visibility = "hidden";
+    timerDisp.style.visibility = "hidden";
+}
+
+function renderScore() {
+    var initials = document.getElementById("initials").value;
+    var score = secondsRemaining;
+    var scoreLength = highScore.length;
+    var addScr = { in: initials,
+        sc: score
+    }
+
+    highScore.push(addScr);
+    if (scoreLength >= 1) {
+        highScore.sort(function(a, b) { return b.sc - a.sc });
+    }
+
+    for (i = 0; i <= scoreLength; i++) {
+
+        scoreContent.append(highScore[i].in + " score: " + highScore[i].sc);
+        scoreContent.append(document.createElement("br"));
+
+    }
+    dispOff();
+    clear();
+    startAppear();
+}
+
+function clear() {
+    indexNo = 0;
+    secondsRemaining = 60;
+    contentOff();
+    return;
+}
+
+function strtQuiz() {
+    contentOn();
+    hiOff();
+    startOff();
+    quiz();
+    clock();
+}
+
+function nextQ() {
+
+    indexNo++;
+    quiz();
+}
+
+function checkA() {
+    if (questions[indexNo].correct === "a" && indexNo < arrLength) {
+
+        nextQ();
+    } else if (questions[indexNo].correct != "a") { secondsRemaining = secondsRemaining - 10; } else if (questions[indexNo].correct === "a" && indexNo === arrLength) {
+        dispOn();
+        clearInterval(myTimer);
+        contentOff();
+        return;
+    }
+}
+
+function checkB() {
+    if (questions[indexNo].correct === "b" && indexNo < arrLength) {
+        nextQ();
+    } else if (questions[indexNo].correct != "b") { secondsRemaining = secondsRemaining - 10; } else if (questions[indexNo].correct === "b" && indexNo === arrLength) {
+        dispOn();
+        clearInterval(myTimer);
+        contentOff();
+        return;
+
+    }
+}
+
+function checkC() {
+    if (questions[indexNo].correct === "c" && indexNo < arrLength) {
+        nextQ();
+    } else if (questions[indexNo].correct != "c") { secondsRemaining = secondsRemaining - 10; } else if (questions[indexNo].correct === "c" && indexNo === arrLength) {
+        dispOn();
+        clearInterval(myTimer);
+        contentOff();
+        return;
+    }
+}
+
+function checkD() {
+    if (questions[indexNo].correct === "d" && indexNo < arrLength) {
+        nextQ();
+    } else if (questions[indexNo].correct != "d") { secondsRemaining = secondsRemaining - 10; } else if (questions[indexNo].correct === "d" && indexNo === arrLength) {
+        dispOn();
+        clearInterval(myTimer);
+        contentOff();
+        return;
+    }
+}
+startAppear();
+dispOff();
+hiOff();
+contentOff();
